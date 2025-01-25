@@ -89,6 +89,74 @@ We need the location BUT
 It's not necessarily bad 
     - There will be a problem here 
     - Now that we have sortedPlaces we want to use it 
-    - In the `Places` component, we want to pass the sortedPlaces 
-    - And the sortedPlaces isn't available right away as it takes some time to retreive that user data 
+    - In the `Places` component, we want to pass the `sortedPlaces` 
+    - And the `sortedPlaces` array isn't available right away as it takes some time to retreive that user data 
+    - So the first Render cycle of the `App` component will be finished at the point of time where we have user location
+
+---
+
+## Let's Fix it
+We need state!
+    - `const [availablePlaces, setAvailablePlaces] = useState([]);`
+    - Start with empty array and we set the state to sortedplaces 
+        - ONCE WE HAVE THEM 
+    - So after we have fetched the user's location 
+    - This `setAvailablePlaces` re-renders the Component and the state will be updated with the sortedPlaces 
+    - Then we can pass this to the `PLaces` Component 
+
+```jsx
+const [availablePlaces, setAvailablePlaces] = useState([]);
+navigator.geolocation.getCurrentPosition((position)=>{
+    const sortedPlaces = sortPlacesByDistance(
+        AVAILABLE_PLACES,
+        position.coords.latitude, 
+        position.coords.longitude
+    )
+    setAvailablePlaces(sortedPlaces);
+});
+```
+ ## Wrong! ➡️ We run into a infinite loop 
+Looks like a good solution but it has a flaw 
+    - Why? 
+        * We are updating a state 
+        * Calling such a state updating function tells react to re-execute the component 
+        * If the component function executes again, we fetch the user's location again 
+        * Then we set the state again -> re-render -> fetch location -> set state -> re-render -> fetch location
+
+stateDiagram-v2
+    [*] --> FetchLocation: Component Executes
+    FetchLocation --> SetState: Location Data Retrieved
+    SetState --> Rerender: State Updated
+    Rerender --> FetchLocation: Trigger Next Fetch
+    FetchLocation --> SetState
+
+---
+
+## We got a Infinite Loop 
+That's the problem of side effect and why we use `useEffect()` hook
+
+---
+
+### SUMMARY
+
+`App renders `→ but we don’t have the user’s location yet.
+`We call getCurrentPosition()` → this takes time (waiting for user permission + retrieving GPS data).
+`React doesn’t wait! `→ It moves on and completes rendering without the location.
+`UI gets built with incomplete data` → because sortPlacesByDistance() needs location, but we don’t have it yet.
+Later, `the location arrives` 🎉 but… `React` doesn’t know it should update the UI!
+
+### Why is this a Problem?
+`React` doesn’t track local variables like `sortedPlaces`.
+
+So even though we now have the user’s location, React won’t re-render to show the sorted list.
+
+We need to tell `React`:
+
+"Hey, `React`! The location has arrived!"
+"Update the state so we can re-render with the sorted places!"
+
+How Do We Fix This?
+✅ Use useState() → Store `sortedPlaces` in state so `React` can track changes.
+✅ Use useEffect() → Run `getCurrentPosition()` after the first render to fetch location.
+✅ Update state when location arrives → `React` sees the change and triggers a re-render.
     
