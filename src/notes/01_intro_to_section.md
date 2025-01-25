@@ -118,11 +118,11 @@ navigator.geolocation.getCurrentPosition((position)=>{
  ## Wrong! ➡️ We run into a infinite loop 
 Looks like a good solution but it has a flaw 
     - Why? 
-        - We are updating a state 
-        - Calling such a state updating function tells react to re-execute the component 
-        - If the component function executes again, we fetch the user's location again 
-        - Then we set the state again
-            -> re-render -> fetch location -> set state -> re-render -> fetch location
+    - We are updating a state 
+    - Calling such a state updating function tells react to re-execute the component 
+    - If the component function executes again, we fetch the user's location again 
+    - Then we set the state again
+    -> re-render -> fetch location -> set state -> re-render -> fetch location
 
 ```mermaid
 stateDiagram-v2
