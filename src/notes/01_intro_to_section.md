@@ -136,12 +136,11 @@ Circular loop:
 ---
 
 ### Summary: The Problem
-
-`App renders` → No user location yet
-`getCurrentPosition()` → Time-consuming (user permission + GPS data)
-`React doesn't wait!` → Completes rendering without location
-`UI built with incomplete data` → `sortPlacesByDistance()` needs location
-`Location arrives` → But React doesn't know to update UI
+- `App renders` → No user location yet
+- `getCurrentPosition()` → Time-consuming (user permission + GPS data)
+- `React doesn't wait!` → Completes rendering without location
+- `UI built with incomplete data` → `sortPlacesByDistance()` needs location
+- `Location arrives` → But React doesn't know to update UI
 
 ### Why is This a Problem?
 - React doesn't track local variables like `sortedPlaces`
