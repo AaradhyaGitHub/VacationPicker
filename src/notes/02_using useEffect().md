@@ -54,7 +54,7 @@ fallbackText="Sorting places by distance..."
 ```
 
 ---
-
+```mermaid
 flowchart TD
     A[App Component Starts] --> B[First Component Render]
     B --> C{useEffect with Empty Dependency Array}
@@ -72,8 +72,7 @@ flowchart TD
     style D fill:#ffd,stroke:#333,stroke-width:2px
     style E fill:#fbb,stroke:#333,stroke-width:2px
     style J fill:#ddd,stroke:#333,stroke-width:2px
-
-
+```
 ## Key Takeaways
 - Manages side effects cleanly
 - Provides fine-grained control over effect execution
