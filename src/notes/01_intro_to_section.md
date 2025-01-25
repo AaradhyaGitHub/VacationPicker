@@ -123,12 +123,14 @@ Looks like a good solution but it has a flaw
         * If the component function executes again, we fetch the user's location again 
         * Then we set the state again -> re-render -> fetch location -> set state -> re-render -> fetch location
 
+```mermaid
 stateDiagram-v2
     [*] --> FetchLocation: Component Executes
     FetchLocation --> SetState: Location Data Retrieved
     SetState --> Rerender: State Updated
     Rerender --> FetchLocation: Trigger Next Fetch
     FetchLocation --> SetState: Location Data Retrieved
+```
 
 
 ---
