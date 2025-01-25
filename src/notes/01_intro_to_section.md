@@ -128,7 +128,8 @@ stateDiagram-v2
     FetchLocation --> SetState: Location Data Retrieved
     SetState --> Rerender: State Updated
     Rerender --> FetchLocation: Trigger Next Fetch
-    FetchLocation --> SetState
+    FetchLocation --> SetState: Location Data Retrieved
+
 
 ---
 
