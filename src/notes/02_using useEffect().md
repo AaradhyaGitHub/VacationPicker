@@ -64,7 +64,7 @@ flowchart TD
     F --> G[Update State]
     G --> H[Trigger Re-render]
     H --> I{Check Dependency Array}
-    I -->|Empty Array []| J[No Further Execution]
+    I -->|Empty Dependency Array| J[No Further Execution]
     
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style B fill:#bbf,stroke:#333,stroke-width:2px
@@ -72,6 +72,7 @@ flowchart TD
     style D fill:#ffd,stroke:#333,stroke-width:2px
     style E fill:#fbb,stroke:#333,stroke-width:2px
     style J fill:#ddd,stroke:#333,stroke-width:2px
+
 ```
 ## Key Takeaways
 - Manages side effects cleanly
