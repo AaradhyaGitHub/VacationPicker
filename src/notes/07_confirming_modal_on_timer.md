@@ -7,11 +7,12 @@ Hey there, fellow React adventurer! Ever found yourself in a coding pickle where
 Picture this: You're building a delete confirmation modal. Sounds straightforward, right? Just add a timeout, and boom – automatic confirmation. But wait... there's a twist!
 
 ### The Gotcha Code
+
 ```jsx
 // Looks innocent, but watch out!
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
   setTimeout(() => {
-    onConfirm();  // Surprise! I'm running whenever I want
+    onConfirm(); // Surprise! I'm running whenever I want
   }, 3000);
 }
 ```
@@ -25,36 +26,55 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
 ## The Developer's Toolkit 🛠️
 
 ### Approach 1: Conditional Rendering Magic
+
 ```jsx
 // Hey, only show me when you really need me!
-{modalIsOpen && (
-  <DeleteConfirmation
-    onCancel={handleStopRemovePlace}
-    onConfirm={handleRemovePlace}
-  />
-)}
+{
+  modalIsOpen && (
+    <DeleteConfirmation
+      onCancel={handleStopRemovePlace}
+      onConfirm={handleRemovePlace}
+    />
+  );
+}
 ```
 
 ### Approach 2: The Hero We Need - useEffect
-```jsx
-import { useEffect } from 'react';
 
+```jsx
+import { useEffect } from "react";
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
   useEffect(() => {
-    const timerId = setTimeout(onConfirm, 3000);
-    
-    // Clean up, because we're tidy developers! 🧹
-    return () => clearTimeout(timerId);
-  }, []); // I run only once, promise!
+    setTimeout(() => {
+      onConfirm();
+    }, 3000);
+  }, []);
+
+  return (
+    <div id="delete-confirmation">
+      <h2>Are you sure?</h2>
+      <p>Do you really want to remove this place?</p>
+      <div id="confirmation-actions">
+        <button onClick={onCancel} className="button-text">
+          No
+        </button>
+        <button onClick={onConfirm} className="button">
+          Yes
+        </button>
+      </div>
+    </div>
+  );
 }
 ```
 
 ## Pro Tips That'll Save Your Bacon 🥓
+
 - Timers are sneaky – always have an escape route
 - `useEffect` is your new best friend
 - Cleanup is not just for your room, but for your code too!
 
 ### The Golden Rule
+
 **Never trust a timer that runs wild. Always keep it on a leash with `useEffect` and `clearTimeout()`.**
 
 Happy Coding! 🚀👩‍💻👨‍💻
