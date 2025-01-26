@@ -1,20 +1,57 @@
-What are Effect Dependencies? 
+# React useEffect Dependencies: A Practical Guide
 
-Effect Dependencies are prop or state values that are used inside of the effect function. 
+## What are Effect Dependencies?
 
-In addition, other effect dependencies would be functions or context values that depend on or use state or porps. 
+Effect dependencies are:
+- Prop or state values used inside the effect function
+- Functions or context values that depend on state or props
+- Any value that would cause the component to re-execute
 
-Any value that causes component to execute again basically state and props any such value is a dependency if used inside a useEffect function 
+### Key Insights
 
-Other values like Refs, browser built in objects or methods are NOT Effect Dependencies 
+#### What Counts as a Dependency?
+- State values
+- Props
+- Derived values from state or props
 
-useEffect only cares about dependencies that would cause the component function to execute again...
+#### What Doesn't Count?
+- Refs
+- Browser built-in objects/methods
+- Values that don't trigger component re-render
 
-WHY this matters? 
---> Because our effect function should run whenever the component function executes if one of it's dependencies changed
+## Why Dependencies Matter
 
-With an empty array, they can't change. So in App component's useEffect only executed once 
+```jsx
+useEffect(() => {
+  // This effect depends on 'count'
+  console.log(count);
+}, [count]); // 'count' is a dependency
+```
 
-But in Modal, we are using the open prop...
-now it's different. 
-So, we have to add open to our dependency array.
+### Dependency Array Behavior
+- Empty array `[]`: Effect runs only once
+- With dependencies `[open]`: Effect runs when dependency changes
+- No array: Effect runs after every render
+
+## Real-World Example
+
+```jsx
+function Modal({ open }) {
+  useEffect(() => {
+    if (open) {
+      // Do something when modal opens
+    }
+  }, [open]); // 'open' prop is a dependency
+}
+```
+
+### Critical Principle
+> Your effect function should execute when its dependencies change
+
+## Best Practices
+- Be explicit about dependencies
+- Only include values that trigger re-render
+- Avoid unnecessary re-renders
+- Use dependency linters in your IDE
+
+💡 **Pro Tip**: Always ask, "Would this value cause my component to re-render?"

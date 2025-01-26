@@ -71,10 +71,5 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
 
 - Timers are sneaky – always have an escape route
 - `useEffect` is your new best friend
-- Cleanup is not just for your room, but for your code too!
-
-### The Golden Rule
-
-**Never trust a timer that runs wild. Always keep it on a leash with `useEffect` and `clearTimeout()`.**
-
-Happy Coding! 🚀👩‍💻👨‍💻
+- `useEffect` along with the effect function, also allows for a cleanup function which runs before the Effect function runs again
+OR Right before the component is dismounted or removed from the DOM 
